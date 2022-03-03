@@ -1,9 +1,9 @@
 import numpy as np
 np.random.seed(123)
 
-import keras as ke
+# import keras as ke
 
-from keras.models import Seqquential
+from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
 
 from keras.layers import Convolution2D, MaxPool2D
