@@ -1,6 +1,6 @@
 import numpy as np
 np.random.seed(123)
-# Git - trial -poopyboi
+# Git - trial -poopyboi 2 electric boogaloo
 # import keras as ke
 
 from keras.models import Sequential
