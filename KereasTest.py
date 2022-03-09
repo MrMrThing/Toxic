@@ -1,15 +1,37 @@
-import numpy as np
-np.random.seed(123)
-# Git - trial -poopyboi 2 electric boogaloo
-# import keras as ke
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.feature_extraction.text import CountVectorizer
 
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation, Flatten
+data = pd.read_excel('C:/Users/rasmu/Desktop/Train.xlsx', names = ['id', 'sentence', 'toxic', 'severe_toxic', 'obscene' , 'threat' , 'insult', 'identity_hate'])
 
-from keras.layers import Convolution2D, MaxPool2D
-from keras.utils import np_utils
+df = pd.DataFrame(data)
+  
+print(df)
 
-from keras.datasets import mnist
-(X_train, y_train), (X_test, y_test) = mnist.load_data()
+sentences = ['John likes ice cream', 'John hates chocolate.']
 
-print(X_train.shape)
+vectorizer = CountVectorizer(min_df=0, lowercase=False)
+vectorizer.fit(sentences)
+vectorizer.vocabulary_
+
+
+sentences = df['sentence'].values
+y = df['severe_toxic'].values
+
+sentences_train, sentences_test, y_train, y_test = train_test_split(
+    sentences,y,test_size=0.10,random_state=1000)
+
+
+vectorizer = CountVectorizer()
+vectorizer.fit(sentences_train)
+X_train = vectorizer.transform(sentences_train)
+X_test  = vectorizer.transform(sentences_test)
+X_train
+
+
+classifier = LogisticRegression()
+classifier.fit(X_train, y_train)
+score = classifier.score(X_test, y_test)
+
+print("Accuracy:", score)
