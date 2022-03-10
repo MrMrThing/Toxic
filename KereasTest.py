@@ -9,15 +9,9 @@ df = pd.DataFrame(data)
   
 print(df)
 
-sentences = ['John likes ice cream', 'John hates chocolate.']
-
-vectorizer = CountVectorizer(min_df=0, lowercase=False)
-vectorizer.fit(sentences)
-vectorizer.vocabulary_
-
 
 sentences = df['sentence'].values
-y = df['severe_toxic'].values
+y = df['toxic'].values
 
 sentences_train, sentences_test, y_train, y_test = train_test_split(
     sentences,y,test_size=0.10,random_state=1000)
