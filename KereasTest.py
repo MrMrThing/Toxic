@@ -28,15 +28,25 @@ X_train = vectorizer.transform(sentences_train)
 X_test  = vectorizer.transform(sentences_test)
 X_train
 
+test_vectorizer = CountVectorizer(lowercase=False)
+test_sentence = ['Go fuck yourself']
+
+#test_vectorizer.fit(test_sentence)
+Test = test_vectorizer.fit_transform(test_sentence)
+
+print(Test)
+
 print("Hello")
 
-classifier = KNeighborsClassifier()
+classifier = DecisionTreeClassifier()
 classifier.fit(X_train, y_train)
+prediction = classifier.predict
 score = classifier.score(X_test, y_test)
 
 
 
 print("Accuracy:", score)
+print("Prediction", prediction)
 
 stop = time.time()
 print(f"Training time: {stop - start}s")
