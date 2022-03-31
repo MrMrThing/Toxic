@@ -1,3 +1,5 @@
+from asyncio.windows_events import NULL
+from tokenize import String
 import pandas as pd
 import time
 from sklearn.model_selection import train_test_split
@@ -6,7 +8,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.feature_extraction.text import CountVectorizer
 
-start = time.time()
+
 
 data = pd.read_excel('C:/Users/rasmu/Desktop/Train.xlsx', names = ['id', 'sentence', 'toxic', 'severe_toxic', 'obscene' , 'threat' , 'insult', 'identity_hate'])
 
@@ -28,21 +30,31 @@ X_train = vectorizer.transform(sentences_train)
 X_test  = vectorizer.transform(sentences_test)
 X_train
 
-test_vectorizer = CountVectorizer(lowercase=False)
-test_sentence = ['Go fuck yourself']
+test_sentence = ['What does the fox say?']
 
 #test_vectorizer.fit(test_sentence)
-Test = test_vectorizer.fit_transform(test_sentence)
+Test = vectorizer.transform(test_sentence)
 
 print(Test)
 
-print("Hello")
+start = time.time()
 
-classifier = DecisionTreeClassifier()
+classifier = LogisticRegression()
 classifier.fit(X_train, y_train)
-prediction = classifier.predict
+prediction = classifier.predict(Test)
 score = classifier.score(X_test, y_test)
 
+print("Give me a sentence")
+
+ever = True
+while ever:
+
+    test_sentence = [input()]
+
+    Test = vectorizer.transform(test_sentence)
+    prediction = classifier.predict(Test)
+    print(test_sentence, " Prediction: ", prediction)
+    test_sentence = NULL
 
 
 print("Accuracy:", score)
@@ -50,3 +62,4 @@ print("Prediction", prediction)
 
 stop = time.time()
 print(f"Training time: {stop - start}s")
+
