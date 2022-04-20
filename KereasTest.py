@@ -12,13 +12,18 @@ from sklearn.feature_extraction.text import CountVectorizer
 
 data = pd.read_excel('C:/Users/rasmu/Desktop/Train.xlsx', names = ['id', 'sentence', 'toxic', 'severe_toxic', 'obscene' , 'threat' , 'insult', 'identity_hate'])
 
+test = pd.read_excel('C:/Users/rasmu/Desktop/Test.xlsx')
+
 df = pd.DataFrame(data)
+
+df_test = pd.DataFrame(test)
   
-print(df)
+print()
+print(df_test)
 
 
 sentences = df['sentence'].values
-y = df['insult'].values
+y = df['toxic'].values
 
 sentences_train, sentences_test, y_train, y_test = train_test_split(
     sentences,y,test_size=0.20,random_state=42)
@@ -55,7 +60,7 @@ stop = time.time()
 print(f"Training time: {stop - start}s")
 
 ever = True
-while ever:
+"""while ever:
 
     test_sentence = [input()]
 
@@ -63,5 +68,18 @@ while ever:
     prediction = classifier.predict(Test)
     print(test_sentence, " Prediction: ", prediction)
     test_sentence = NULL
+"""
+def dataSet(DataFrame):
 
+    for i in len(DataFrame):
 
+        test_sentence = DataFrame.iloc[i]
+
+        Test = vectorizer.transform(test_sentence)
+        prediction = classifier.predict(Test)
+        print(test_sentence, " Prediction: ", prediction)
+        test_sentence = NULL
+
+        return NULL
+
+dataSet(df_test)
