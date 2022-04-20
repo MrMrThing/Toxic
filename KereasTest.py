@@ -18,10 +18,10 @@ print(df)
 
 
 sentences = df['sentence'].values
-y = df['toxic'].values
+y = df['insult'].values
 
 sentences_train, sentences_test, y_train, y_test = train_test_split(
-    sentences,y,test_size=0.20,random_state=1000)
+    sentences,y,test_size=0.20,random_state=42)
 
 
 vectorizer = CountVectorizer(lowercase=False)
@@ -39,12 +39,20 @@ print(Test)
 
 start = time.time()
 
-classifier = LogisticRegression()
+classifier = DecisionTreeClassifier()
 classifier.fit(X_train, y_train)
 prediction = classifier.predict(Test)
 score = classifier.score(X_test, y_test)
 
 print("Give me a sentence")
+
+
+
+print("Accuracy:", score)
+print("Prediction", prediction)
+
+stop = time.time()
+print(f"Training time: {stop - start}s")
 
 ever = True
 while ever:
@@ -56,10 +64,4 @@ while ever:
     print(test_sentence, " Prediction: ", prediction)
     test_sentence = NULL
 
-
-print("Accuracy:", score)
-print("Prediction", prediction)
-
-stop = time.time()
-print(f"Training time: {stop - start}s")
 
