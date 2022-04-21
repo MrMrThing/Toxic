@@ -7,6 +7,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.feature_extraction.text import CountVectorizer
+import openpyxl
 
 
 
@@ -69,17 +70,33 @@ ever = True
     print(test_sentence, " Prediction: ", prediction)
     test_sentence = NULL
 """
-def dataSet(DataFrame):
+def predictDataSet(DataFrame):
 
-    for i in len(DataFrame):
+    #df_predictions = pd.DataFrame(columns = ['id', 'statement', 'prediction'])
+    
+    length = int(len(DataFrame))
+    print(length)
+    allPredictions = []
+
+    for i in range(length):
 
         test_sentence = DataFrame.iloc[i]
 
         Test = vectorizer.transform(test_sentence)
         prediction = classifier.predict(Test)
-        print(test_sentence, " Prediction: ", prediction)
+        
+
+        allPredictions.append(prediction)
+
+        #df_predictions = df.append(DataFrame.iloc[i], DataFrame.iloc[i], prediction)
+
+        
+
         test_sentence = NULL
 
-        return NULL
+    DataFrame.insert(len(DataFrame.columns), 'predictions', allPredictions)
+    print(DataFrame)
+    DataFrame.to_excel('pandas_to_excel.xlsx', sheet_name='new_sheet_name')
+    return NULL
 
-dataSet(df_test)
+predictDataSet(df_test)
