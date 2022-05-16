@@ -8,6 +8,8 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.feature_extraction.text import CountVectorizer
 import openpyxl
+from sklearn.datasets import load_iris
+from sklearn import tree
 
 
 
@@ -60,6 +62,8 @@ print("Prediction", prediction)
 stop = time.time()
 print(f"Training time: {stop - start}s")
 
+tree.plot_tree(classifier)
+
 ever = True
 """while ever:
 
@@ -99,4 +103,4 @@ def predictDataSet(DataFrame):
     DataFrame.to_excel('pandas_to_excel.xlsx', sheet_name='new_sheet_name')
     return NULL
 
-predictDataSet(df_test)
+#predictDataSet(df_test)
