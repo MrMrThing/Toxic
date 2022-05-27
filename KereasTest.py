@@ -11,8 +11,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 import openpyxl
 from sklearn.datasets import load_iris
 from sklearn import tree
-import matplotlib.pyplot as plt
-import re
+
 
 data = pd.read_excel('C:/Users/rasmu/Desktop/Train.xlsx', names = ['id', 'sentence', 'toxic', 'severe_toxic', 'obscene' , 'threat' , 'insult', 'identity_hate'])
 
@@ -46,10 +45,6 @@ sentences_train, sentences_test, y_train, y_test = train_test_split(
 
 
 
-test_sentence = ['the quick brown fox jumps over the lazy dog']
-
-#N-Gram
-"""
 model = CountVectorizer(ngram_range = (1, 1))
 matrix = model.fit_transform(sentences).toarray()
 df_output = pd.DataFrame(data = matrix, columns = model.get_feature_names())
@@ -67,7 +62,6 @@ X_train
 #test_vectorizer.fit(test_sentence)
 Test = vectorizer.transform(test_sentence)
 
-print(Test, "Hello")
 
 start = time.time()
 
