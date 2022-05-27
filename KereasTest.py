@@ -1,5 +1,6 @@
 from asyncio.windows_events import NULL
 from tokenize import String
+from numpy import vectorize
 import pandas as pd
 import time
 from sklearn.model_selection import train_test_split
@@ -10,8 +11,8 @@ from sklearn.feature_extraction.text import CountVectorizer
 import openpyxl
 from sklearn.datasets import load_iris
 from sklearn import tree
-
-
+import matplotlib.pyplot as plt
+import re
 
 data = pd.read_excel('C:/Users/rasmu/Desktop/Train.xlsx', names = ['id', 'sentence', 'toxic', 'severe_toxic', 'obscene' , 'threat' , 'insult', 'identity_hate'])
 
@@ -26,35 +27,57 @@ print(df_test)
 
 
 sentences = df['sentence'].values
+"""
+k = 0.1
+for i in range(len(sentences)):
+    ##sentences[i].lower()
+    sentences[i] = re.sub('\W+','', sentences[i] )
+
+    if i >= k * len(sentences):
+        print(k*100, "%")
+        k = k + 0.1
+print("100%")
+
+"""
 y = df['toxic'].values
 
 sentences_train, sentences_test, y_train, y_test = train_test_split(
     sentences,y,test_size=0.20,random_state=42)
 
 
+
+test_sentence = ['the quick brown fox jumps over the lazy dog']
+
+#N-Gram
+"""
+model = CountVectorizer(ngram_range = (1, 1))
+matrix = model.fit_transform(sentences).toarray()
+df_output = pd.DataFrame(data = matrix, columns = model.get_feature_names())
+df_output.T.tail(5)
+
+
+#CountVectorizer
+"""
 vectorizer = CountVectorizer(lowercase=False)
 vectorizer.fit(sentences_train)
 X_train = vectorizer.transform(sentences_train)
 X_test  = vectorizer.transform(sentences_test)
 X_train
 
-test_sentence = ['What does the fox say?']
-
 #test_vectorizer.fit(test_sentence)
 Test = vectorizer.transform(test_sentence)
 
-print(Test)
+print(Test, "Hello")
 
 start = time.time()
 
 classifier = DecisionTreeClassifier()
 classifier.fit(X_train, y_train)
+
 prediction = classifier.predict(Test)
-score = classifier.score(X_test, y_test)
+score = classifier.score(sentences_test, y_test)
 
 print("Give me a sentence")
-
-
 
 print("Accuracy:", score)
 print("Prediction", prediction)
@@ -62,10 +85,13 @@ print("Prediction", prediction)
 stop = time.time()
 print(f"Training time: {stop - start}s")
 
-tree.plot_tree(classifier)
+##tree.plot_tree(classifier)
+##max_depth = 10
+##plt.show()
 
+"""
 ever = True
-"""while ever:
+while ever:
 
     test_sentence = [input()]
 
