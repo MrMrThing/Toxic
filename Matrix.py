@@ -18,18 +18,12 @@ import numpy as np
 
 
 data = pd.read_excel('C:/Users/rasmu/Desktop/Train.xlsx', names = ['id', 'sentence', 'toxic', 'severe_toxic', 'obscene' , 'threat' , 'insult', 'identity_hate'])
-test = pd.read_csv('C:/Users/rasmu/Desktop/Test.csv', names = ['id', 'comments'])
+test = pd.read_excel('C:/Users/rasmu/Desktop/Test.xlsx', names = ['id', 'comments'])
 result = pd.read_csv('C:/Users/rasmu/Desktop/test_labels.csv', names = ['id','toxic', 'severe_toxic', 'obscene' , 'threat' , 'insult', 'identity_hate'])
 
 df = pd.DataFrame(data)
 df_result = pd.DataFrame(result)
 df_test = pd.DataFrame(test)
-
-pd.DataFrame(df_test).fillna(0)
-df_test.replace([np.inf, -np.inf], np.nan, inplace=True)
-
-pd.DataFrame(df_result).fillna(0)
-df_result.replace([np.inf, -np.inf], np.nan, inplace=True)
 
 sentences = df['sentence'].values
 results = df_result['toxic'].values
@@ -37,9 +31,9 @@ test_sentences = df_test['comments'].values
 
 y = df['toxic'].values
 
-df_result.info()
+df_result.head()
 
-df_test.info()
+df_test.head()
 
 
 sentences_train, sentences_test, y_train, y_test, = train_test_split(
@@ -76,13 +70,34 @@ print("Prediction", prediction)
 stop = time.time()
 print(f"Training time: {stop - start}s")
 
-np.isnan(df_test.any()) #and gets False
-np.isfinite(df_result.all()) #and gets True
+#np.isnan(df_test.any()) #and gets False
+#np.isfinite(df_result.all()) #and gets True
 
 import matplotlib.pyplot as plt
 from sklearn.metrics import plot_confusion_matrix
 
-plot_confusion_matrix(classifier, X_test_sentences, results)
-plt.show()
+#plot_confusion_matrix(classifier, X_test_sentences, results)
+#plt.show()
 
+TP = 0
+TN = 0
+FP = 0
+FN = 0
 
+length = int(len(test_sentences))
+
+for i in range(length):
+    prediction = classifier.predict(X_test_sentences[i])
+    if prediction == -1 and results[i] == 1:
+        TP = TP + 1
+    if prediction == 0 and results[i] == 0:
+        TN = TN + 1
+    if prediction == -1 and results[i] == 0:
+        FN = FN + 1
+    if prediction == 0 and results[i] == 1:
+        FP = FP + 1
+
+print("TP", TP)
+print("TN", TN)
+print("FP", FP)
+print("FN", FN)
