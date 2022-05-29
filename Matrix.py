@@ -18,7 +18,7 @@ import numpy as np
 
 
 data = pd.read_excel('C:/Users/rasmu/Desktop/Train.xlsx', names = ['id', 'sentence', 'toxic', 'severe_toxic', 'obscene' , 'threat' , 'insult', 'identity_hate'])
-test = pd.read_excel('C:/Users/rasmu/Desktop/Test.xlsx', names = ['id', 'comments'])
+test = pd.read_csv('C:/Users/rasmu/Desktop/Test.csv', names = ['id', 'comments'])
 result = pd.read_csv('C:/Users/rasmu/Desktop/test_labels.csv', names = ['id','toxic', 'severe_toxic', 'obscene' , 'threat' , 'insult', 'identity_hate'])
 
 df = pd.DataFrame(data)
@@ -56,7 +56,7 @@ print(Test)
 
 start = time.time()
 
-classifier = LogisticRegression()
+classifier = KNeighborsClassifier()
 classifier.fit(X_train, y_train)
 
 prediction = classifier.predict(Test)
@@ -76,28 +76,47 @@ print(f"Training time: {stop - start}s")
 import matplotlib.pyplot as plt
 from sklearn.metrics import plot_confusion_matrix
 
-#plot_confusion_matrix(classifier, X_test_sentences, results)
-#plt.show()
+
+
+length = int(len(test_sentences))
+
+for i in range(1, length):
+    results[i] = int(results[i])
+    
+
 
 TP = 0
 TN = 0
 FP = 0
 FN = 0
 
-length = int(len(test_sentences))
+print(length)
 
-for i in range(length):
-    prediction = classifier.predict(X_test_sentences[i])
-    if prediction == -1 and results[i] == 1:
+
+
+for i in range(1, length-1):
+    prediction = int(classifier.predict(X_test_sentences[i+1]))
+
+    if prediction == 1 and results[i] == -1 or prediction == 1 and results[i] == 1:
         TP = TP + 1
-    if prediction == 0 and results[i] == 0:
+
+    elif prediction == 0 and results[i] == 0:
         TN = TN + 1
-    if prediction == -1 and results[i] == 0:
+
+    elif prediction == 1 and results[i] == 0:
         FN = FN + 1
-    if prediction == 0 and results[i] == 1:
+
+    elif prediction == 0 and results[i] == -1 or prediction == 0 and results[i] == 1:
         FP = FP + 1
 
-print("TP", TP)
-print("TN", TN)
-print("FP", FP)
-print("FN", FN)
+    else:
+        print(i)
+        print(prediction, results[i])
+        break
+
+
+print("TP", TP/length)
+print("TN", TN/length)
+print("FP", FP/length)
+print("FN", FN/length)
+
