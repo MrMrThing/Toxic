@@ -10,7 +10,7 @@ from sklearn.datasets import load_iris
 
 #Importing data
 data = pd.read_excel('C:/Users/rasmu/Desktop/Train.xlsx', names = ['id', 'sentence', 'toxic', 'severe_toxic', 'obscene' , 'threat' , 'insult', 'identity_hate'])
-test = pd.read_csv('C:/Users/rasmu/Desktop/Test.csv')
+test = pd.read_excel('C:/Users/rasmu/Desktop/Test.xlsx')
 
 #Making Dataframe's
 df = pd.DataFrame(data)
@@ -123,7 +123,7 @@ def predictDataSet(DataFrame):
     #Then exporting that dataframe out
     DataFrame.insert(len(DataFrame.columns), 'predictions', allPredictions)
     print(DataFrame)
-    DataFrame.to_csv('Predicted_File.csv', sheet_name='new_sheet_name')
+    DataFrame.to_excel('pandas_to_excel.xlsx', sheet_name='new_sheet_name')
     return NULL
 
 #Calling the functing, needs a dataframe to predict
