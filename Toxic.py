@@ -69,7 +69,7 @@ start = time.time()
 
 #Defining the used classifier, this can be changed
 #And fitting that classifier on our training set
-classifier = KNeighborsClassifier()
+classifier = DecisionTreeClassifier()
 classifier.fit(X_train, y_train)
 
 #Making the prediction on the test sentence
